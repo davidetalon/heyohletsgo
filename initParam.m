@@ -31,7 +31,7 @@ Param.mobilityScenario = 'static';% Integer to choose the mobility scenario (ped
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
 Param.utilLoThr = 1;% Integer for the threshold for the low utilisation range (>= 1)
 Param.utilHiThr = 100;% Integer for the threshold for the high utilisation range (<= 100)
-Param.trafficModel = 'fullBuffer';% Traffic model
+Param.trafficModel = 'webBrowsing';% Traffic model
 %% Physical layer
 Param.ulFreq = 1747.5;% Double used for the uplink carrier frequency in MHz
 Param.dlFreq = 1842.5;% Double used for the downlink carrier frequency in MHz
@@ -86,13 +86,20 @@ Param.buildings(:,5) = randi([Param.buildingHeight],[1 length(Param.buildings(:,
 Param.harq.tout = Param.harq.proc/2 -1;
 
 % Get traffic source data and check if we have already the MAT file with the traffic data
+% Get traffic source data and check if we have already the MAT file with the traffic data
 switch Param.trafficModel
 	case 'videoStreaming'
 		if (exist('traffic/videoStreaming.mat', 'file') ~= 2 || Param.reset)
 			trSource = loadVideoStreamingTraffic('traffic/videoStreaming.csv', true);
 		else
 			load('traffic/videoStreaming.mat', 'trSource');
-		end
+        end
+    case 'webBrowsing'
+        if (exist('traffic/webBrowsing.mat', 'file') ~= 2 || Param.reset)
+			trSource = loadWebBrowsingTraffic(1000);
+		else
+			load('traffic/webBrowsing.mat', 'trSource');
+        end
 	case 'fullBuffer'
 		if (exist('traffic/fullBuffer.mat', 'file') ~= 2 || Param.reset)
 			trSource = loadFullBufferTraffic('traffic/fullBuffer.csv');
