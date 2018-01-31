@@ -1,7 +1,7 @@
-function [ ABSMask ] = generateABS( nSubFrames, nABS )
-%GENERATEABS Summary of this function goes here
-%  Given the number of SubFrames and the number of ABS subFrames generate a
-%  uniformly distribuited mask.
+function [ ABSMask ] = generateABSMask( nSubFrames, nABS )
+%GENERATEABSMASK Summary of this function goes here
+%   Given the number of SubFrames and the number of ABS subFrames generate a
+%   uniformly distribuited ABS mask.
 %  
 
 %initialize the mask to all zeros
