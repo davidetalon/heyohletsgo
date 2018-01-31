@@ -10,7 +10,7 @@ ABSMask = zeros(1, nSubFrames);
 %compute ideal number of zeros between ones
 nSpaces = (nSubFrames-nABS)/(nABS+1);
 
-if (nABS > NSubFrames)
+if (nABS > nSubFrames)
    print 'nABS > NSubFrames not allowed';
 end  
 

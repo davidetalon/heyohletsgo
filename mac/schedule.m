@@ -22,14 +22,14 @@ prbsAv = floor(res/Param.prbRe);
 % get ABS info
 % current subframe
 currentSubframe = Station.NSubframe;
-absValue = Station.AbsMask(currentSubframe + 1); % get a 0 or 1 that corresponds
+absValue = Station.ABSMask(currentSubframe + 1); % get a 0 or 1 that corresponds
 % to the mask of this subframe
 
 % if the policy is simpleABS, we use the fixed ABS mask from the Station
 % properties
 switch Param.icScheme
     case 'simpleABS'
-        if(~strcmp(Station.BsClass, 'macro'))
+        if(strcmp(Station.BsClass, 'micro'))
             % the behavior of the micro is the opposite of that of the macro
             absValue = ~absValue;
         end

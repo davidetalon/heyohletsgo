@@ -1,4 +1,4 @@
-%% SIMULATION PARAMETERS
+% SIMULATION PARAMETERS
 Param.reset = 0;% Boolean used to reset the folder structure and reload everything
 Param.rmResults = 1;% Boolean to clean the results folder
 
@@ -33,9 +33,6 @@ Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
 Param.numUsers = 4;% Integer used for the number of UEs
 Param.mobilityScenario = 'static';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
-
-Param.utilLoThr = 1;% Integer for the threshold for the low utilisation range (>= 1)
-Param.utilHiThr = 100;% Integer for the threshold for the high utilisation range (<= 100)
 Param.trafficModel = 'fullBuffer';% Traffic model
 Param.pucchFormat = 2;% PUCCH format (only 2 and 3 work)
 Param.handoverTimer = 0.01;% X2 Handover timer in s (time needed from starting and handover to its completion)
@@ -56,14 +53,15 @@ Param.channel.region = 'DenseUrban';% String to control the channel region
 Param.nboRadius = 100;% Double to set the maximum radius within which eNodeBs are considered as neighbours in metres
 Param.tHyst = 0.002;% Double to set the hysteresis timer threshold in s
 Param.tSwitch = 0.001;% Double to set the eNodeB switching on/off timer in s
-Param.utilLoThr = 1;% Integer for the threshold for the low utilisation range (>= 1)
+Param.utilLoThr = 2;% Integer for the threshold for the low utilisation range (>= 1)
 Param.utilHiThr = 100;% Integer for the threshold for the high utilisation range (<= 100)
 
 %% Scheduling
 Param.scheduling = 'roundRobin';% String for the scheduling policy to use (currently only 'roundRobin')
 Param.refreshAssociationTimer = 0.001;% Double to choose the interval in s to run refreshUsersAssociation
-Param.icScheme = 'none';
-Param.absMask = [1,0,1,0,0,0,0,0,0,0];
+Param.icScheme = 'fullReuse';
+Param.nABS = 3;
+Param.ABSOptimization = 'random';
 
 %%%%% SETUP STUFF - DON'T TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING
 %% HARQ & ARQ
@@ -101,7 +99,7 @@ switch Param.trafficModel
 			trSource = loadWebBrowsingTraffic(1000);
 		else
 			load('traffic/webBrowsing.mat', 'trSource');
-
+        end
 	case 'fullBuffer'
 		if (exist('traffic/fullBuffer.mat', 'file') ~= 2 || Param.reset)
 			Param.trSource = loadFullBufferTraffic('traffic/fullBuffer.csv');

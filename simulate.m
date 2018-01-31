@@ -38,6 +38,35 @@ else
 	load('utils/heatmap/HeatMap_eHATA_fBS_pos_5m_res');
 end
 
+%generating Station's masks with dynamic ABS rate
+%choose the ABS optimization policy
+switch Param.ABSOptimization
+    case 'random'
+        change = randomABS();
+    case 'QLearning'
+        change = qLearningABS();
+    case 'static'
+        change = Stations(1).nABS;
+end
+
+%nABS must be positive and not lower or equals the total number of
+%subFrames
+futureNABS = Stations(1).nABS + change;
+if(futureNABS < 0) or (futureNABS > Param.schRounds)
+    nABS = Stations(1).nABS;
+else
+    nABS = futureNABS;
+end
+
+ABSMask = generateABSMask(Param.schRounds, nABS);
+
+for iStation = 1:length(Stations)
+    Stations(iStation).nABS = nABS;
+    Stations(iStation).ABSMask = ABSMask;
+        
+end
+
+
 % if Param.draw
 % 	drawHeatMap(HeatMap, Stations);
 % end

@@ -46,4 +46,5 @@ function validateParam(Param)
 	validateattributes(Param.channel.modeUL, {'char'}, {'nonempty'});
 	validateattributes(Param.channel.region, {'char'}, {'nonempty'});
 	validateattributes(Param.scheduling, {'char'}, {'nonempty'});
+
 end
