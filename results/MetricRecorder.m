@@ -7,6 +7,8 @@ classdef MetricRecorder
 		schedule;
 		harqRtx;
 		arqRtx;
+        enBThroughput;
+        ABSRate;
 		ber;
 		snrdB;
 		sinrdB
@@ -31,6 +33,8 @@ classdef MetricRecorder
 			obj.schedule = temp;
 			obj.harqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
 			obj.arqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
+            obj.enBThroughput = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
+            obj.ABSRate = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
 			
 			% Initialise for UE
 			obj.ber = zeros(Param.schRounds,Param.numUsers);
@@ -53,6 +57,7 @@ classdef MetricRecorder
 			obj = obj.recordSchedule(Stations, schRound);
 			obj = obj.recordHarqRtx(Stations, schRound);
 			obj = obj.recordArqRtx(Stations, schRound);
+%             obj = obj.recordEnbThroughput(Stations, schRound);
 		end
 		
 		function obj = recordUtil(obj, Stations, schRound)
@@ -99,7 +104,23 @@ classdef MetricRecorder
 				arqProcs = [Stations(iStation).Rlc.ArqTxBuffers.tbBuffer];
 				obj.arqRtx(schRound, iStation) = sum([arqProcs.rtxCount]);
 			end
-		end
+        end
+        
+%         function obj = recordEnBThroughput(obj, Stations, schRound)
+%             schRound = schRound + 1;
+%             for iStation = 1:length(Stations)
+%                 obj.enBThroughput(schRound, iStation) = Stations(iStation).throughput * 10^3;
+%             end
+%         end
+
+        function obj = recordABSRate(obj, Stations, schRound)
+            schRound = schRound + 1;
+            for iStation = 1:length(Stations)
+                obj.ABSRate(schRound, iStation) = Stations(iStation).ABSRate;
+            end
+        end
+        
+        
 		
 		% UE metrics
 		function obj = recordUeMetrics(obj, Users, schRound)
@@ -172,7 +193,7 @@ classdef MetricRecorder
 					obj.throughput(schRound, iUser) = Users(iUser).Rx.Bits.ok*10e3;
 				end
 			end
-		end
+        end
 		
 		function obj = recordReceivedPowerdBm(obj, Users, schRound)
 			for iUser = 1:length(Users)

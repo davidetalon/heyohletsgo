@@ -3,7 +3,7 @@ Param.reset = 0;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 1;
+Param.draw = 0;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
@@ -29,7 +29,7 @@ Param.buildingHeight = [20,50];% Double interval used to specify the height inte
 Param.numUsers = 4;% Integer used for the number of UEs
 Param.mobilityScenario = 'static';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
-Param.utilLoThr = 1;% Integer for the threshold for the low utilisation range (>= 1)
+Param.utilLoThr = 2;% Integer for the threshold for the low utilisation range (>= 1)
 Param.utilHiThr = 100;% Integer for the threshold for the high utilisation range (<= 100)
 Param.trafficModel = 'webBrowsing';% Traffic model
 %% Physical layer

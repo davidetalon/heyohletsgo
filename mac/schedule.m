@@ -27,26 +27,27 @@ absValue = Station.AbsMask(currentSubframe + 1); % get a 0 or 1 that corresponds
 
 % if the policy is simpleABS, we use the fixed ABS mask from the Station
 % properties
-if (strcmp(Param.icScheme, 'simpleABS'))
-    if(~strcmp(Station.BsClass, 'macro'))
-        % the behavior of the micro is the opposite of that of the macro
-        absValue = ~absValue;
-    end
-    prbsAv = (1 - absValue) * prbsAv; % set the number of available PRBs to
-    % zero when the absValue is 1, i.e., when we have an almost blank
-    % subframe
-elseif (strcmp(Param.icScheme, 'fullReuseABS'))
-    if(strcmp(Station.BsClass, 'macro')) % micros can always transmit
-        prbsAv = (1 - absValue) * prbsAv;
-        % set the number of available PRBs to
+switch Param.icScheme
+    case 'simpleABS'
+        if(~strcmp(Station.BsClass, 'macro'))
+            % the behavior of the micro is the opposite of that of the macro
+            absValue = ~absValue;
+        end
+        prbsAv = (1 - absValue) * prbsAv; % set the number of available PRBs to
         % zero when the absValue is 1, i.e., when we have an almost blank
         % subframe
-    end
+    case 'fullReuseABS'
+        if(strcmp(Station.BsClass, 'macro')) % micros can always transmit
+            prbsAv = (1 - absValue) * prbsAv;
+            % set the number of available PRBs to
+            % zero when the absValue is 1, i.e., when we have an almost blank
+            % subframe
+        end
 end
 
 switch Param.scheduling
     case 'roundRobin'
-        
+       
         maxRounds = sz;
         iUser = Station.RrNext.Index;
         while (iUser <= sz && maxRounds > 0)

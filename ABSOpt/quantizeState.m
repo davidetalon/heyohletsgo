@@ -9,6 +9,8 @@ function [ state ] = quantizeState( rawState )
 %rawState -> nUEMicro average number of active UE connected to micros
 %rawState -> ABSRate number of abs frame over the total number of frames
 
+%state = state with quantized throughput
+
 quantizedSMacro = quantizeThroughput(rawState.SMacro);
 quantizedSMicro  = quantizeThroughput(rawState.SMicro);
 
