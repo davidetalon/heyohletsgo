@@ -85,14 +85,10 @@ classdef EvolvedNodeB
 			obj.Tx = enbTransmitterModule(obj, Param);
 			obj.Rx = enbReceiverModule(Param);
 			obj.Users(1:Param.numUsers) = struct('UeId', -1, 'CQI', -1, 'RSSI', -1);
-<<<<<<< HEAD
 			obj.ABSMask = generateABSMask(Param.schRounds, Param.nABS); % 10 is the number of subframes per frame. This is the mask for the macro (0 == TX, 1 == ABS)
             obj.nABS = Param.nABS;
         end
-=======
-			obj.AbsMask = Param.absMask; % 10 is the number of subframes per frame. This is the mask for the macro (0 == TX, 1 == ABS)
-    end
->>>>>>> master
+
 		
     function TxPw = getTransmissionPower(obj)
       % TODO: Move this to TransmitterModule?
