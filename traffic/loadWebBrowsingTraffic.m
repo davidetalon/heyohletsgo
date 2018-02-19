@@ -1,4 +1,4 @@
-function [trSource] = loadWebBrowsingTraffic (nPackets)
+function [trSource] = loadWebBrowsingTraffic (totSimTime)
 
 %   LOAD WEB BROWSING TRAFFIC is used to get data in terms of 
 %   packet size and request time.
@@ -29,9 +29,11 @@ function [trSource] = loadWebBrowsingTraffic (nPackets)
   mu = 10;
   sigma = 5;
   
-  times = zeros(1, nPackets);
-  sizes = zeros(1, nPackets);
-  for (i = 1:nPackets)
+  times = 0;
+  sizes = pckSizes(1+sum(rand>CumProbSum));
+  
+  i = 1;
+  while times(i) <= totSimTime
       
     %sampling packet size
     pckSize = pckSizes(1+sum(rand>CumProbSum));
@@ -48,28 +50,15 @@ function [trSource] = loadWebBrowsingTraffic (nPackets)
     end
     
     %getting absolute arrival time
-    if (i == 1)
-      %the first request is at time t=0
-      times(i) = 0;
-    else
-      times(i) = times(i-1) + interTime;
-    end
-      
-    sizes(i) = pckSize;
-    
-  end
+    times = [times (times(i) + interTime)];
 
-  timesCell = num2cell(times');
-  sizeCell = num2cell(sizes');
+      
+    sizes = [sizes pckSize];
+    i = i + 1;
+  end
   
-  % Fill in output data cell
-  data.time = cell2mat(timesCell);
-  data.size = cell2mat(sizeCell);
-  % reshape to cell array TODO check this step
-  dataCell = struct2cell(data);
-  dataSize = size(dataCell);
-  dataCell = reshape(dataCell, dataSize(1), []);
-  trSource = cell2mat(dataCell');
+  trSource(1:length(times),1 ) = times;
+  trSource(1:length(sizes), 2) = sizes;
 
   % Sort using the time column if it has to be shuffled (e.g. interleaved source)
   % first column is timestamp

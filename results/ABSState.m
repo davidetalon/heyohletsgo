@@ -19,7 +19,7 @@ classdef ABSState
             obj.nUEMacro = zeros(nTotSim, Param.numMacro);
             obj.nUEMicro = zeros(nTotSim, 1);
             obj.nABS = zeros(nTotSim, 1);
-            obj.Reward = zeros(nTotSim, 1);
+            obj.Reward = zeros(nTotSim - 1, 1);
         end
         
         function obj = recordState(obj, nSim, Stations, Param, SimulationMetrics)
