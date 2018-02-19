@@ -8,7 +8,7 @@ function [ reward ] = findReward( state )
 %state -> nUEMicro average number of active UE connected to micros
 
 %compute the reward 
-reward = - (state.SMacro * state.nUEmicro / (state.Smicro * state.nUEMacro) - 1)^2;
+reward = - (state.SMacro * state.nUEMicro / (state.SMicro * state.nUEMacro) - 1)^2;
 
 
 end

@@ -1,4 +1,4 @@
-function simulate(Param, DataIn, utilLo, utilHi)
+function [ABSMetrics, nABS] = simulate(Param, DataIn, utilLo, utilHi, nSim, nABS, ABSMetrics)
 
 %   SIMULATE is used to run a single simulation
 %
@@ -46,14 +46,14 @@ switch Param.ABSOptimization
     case 'QLearning'
         change = qLearningABS();
     case 'static'
-        change = Stations(1).nABS;
+        change = 0;
 end
 
 %nABS must be positive and not lower or equals the total number of
 %subFrames
-futureNABS = Stations(1).nABS + change;
+futureNABS = nABS + change;
 if(futureNABS < 0) or (futureNABS > Param.schRounds)
-    nABS = Stations(1).nABS;
+    nABS = nABS;
 else
     nABS = futureNABS;
 end
@@ -61,10 +61,14 @@ end
 ABSMask = generateABSMask(Param.schRounds, nABS);
 
 for iStation = 1:length(Stations)
-    Stations(iStation).nABS = nABS;
-    Stations(iStation).ABSMask = ABSMask;
-        
+    Stations(iStation)= Stations(iStation).setNABS(nABS);
+    Stations(iStation) = Stations(iStation).setABSMask(ABSMask);
 end
+
+
+%Record current nABS
+ABSMetrics = ABSMetrics.recordNABS(nSim, nABS);
+
 
 
 % if Param.draw
@@ -188,13 +192,14 @@ for iRound = 0:(Param.schRounds-1)
 	% ENODEB SPACE METRICS RECORDING
 	% ---------------------------
 	sonohilog('eNodeB-space metrics recording', 'NFO');
-	SimulationMetrics = SimulationMetrics.recordEnbMetrics(Stations, iRound);
+	SimulationMetrics = SimulationMetrics.recordEnbMetrics(Stations, Users, iRound);
 	
 	% --------------------------
 	% UE SPACE METRICS RECORDING
 	% ---------------------------
 	sonohilog('UE-space metrics recording', 'NFO');
 	SimulationMetrics = SimulationMetrics.recordUeMetrics(Users, iRound);
+    
 
 	% -----------
 	% UE MOVEMENT
@@ -226,6 +231,20 @@ for iRound = 0:(Param.schRounds-1)
 	Channel = Channel.resetChannelModels();
 	
 end % end round
+
+% --------------------
+% ABS STATE RECORDING
+% --------------------
+    
+%recording state
+sonohilog('ABS state recording', 'NFO');
+ABSMetrics = ABSMetrics.recordState(nSim, Stations, Param, SimulationMetrics);
+    
+%recording reward for the choosen action
+if nSim ~= 0
+   ABSMetrics = ABSMetrics.recordReward(nSim);
+end
+ 
 
 % Once this simulation set is done, save the output
 save(strcat('results/', outPrexif, '.mat'), 'SimulationMetrics');

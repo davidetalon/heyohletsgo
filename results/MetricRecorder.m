@@ -7,8 +7,9 @@ classdef MetricRecorder
 		schedule;
 		harqRtx;
 		arqRtx;
-        enBThroughput;
-        ABSRate;
+        txBits;
+        nABS;
+        activeUsers;
 		ber;
 		snrdB;
 		sinrdB
@@ -36,8 +37,9 @@ classdef MetricRecorder
 			obj.schedule = temp;
 			obj.harqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
 			obj.arqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
-            obj.enBThroughput = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
-            obj.ABSRate = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
+            obj.txBits = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
+            obj.nABS = 0;
+            obj.activeUsers = zeros(Param.schRounds, Param.numMacro + Param.numMicro, Param.numUsers);
 			
 			% Initialise for UE
 			obj.ber = zeros(Param.schRounds,Param.numUsers);
@@ -55,7 +57,7 @@ classdef MetricRecorder
 		end
 		
 		% eNodeB metrics
-		function obj = recordEnbMetrics(obj, Stations, schRound)
+		function obj = recordEnbMetrics(obj, Stations, Users, schRound)
 			% Increment the scheduling round for Matlab's indexing
 			schRound = schRound + 1;
 			obj = obj.recordUtil(Stations, schRound);
@@ -63,7 +65,9 @@ classdef MetricRecorder
 			obj = obj.recordSchedule(Stations, schRound);
 			obj = obj.recordHarqRtx(Stations, schRound);
 			obj = obj.recordArqRtx(Stations, schRound);
-%             obj = obj.recordEnbThroughput(Stations, schRound);
+            obj = obj.recordTxBits(Stations, Users, schRound);
+            obj = obj.recordNABS(Stations);
+            obj = obj.recordActiveUsers(Users, Stations, schRound);
 		end
 		
 		function obj = recordUtil(obj, Stations, schRound)
@@ -112,22 +116,35 @@ classdef MetricRecorder
 			end
         end
         
-%         function obj = recordEnBThroughput(obj, Stations, schRound)
-%             schRound = schRound + 1;
-%             for iStation = 1:length(Stations)
-%                 obj.enBThroughput(schRound, iStation) = Stations(iStation).throughput * 10^3;
-%             end
-%         end
-
-        function obj = recordABSRate(obj, Stations, schRound)
-            schRound = schRound + 1;
+        function obj = recordTxBits(obj, Stations, Users, schRound)
             for iStation = 1:length(Stations)
-                obj.ABSRate(schRound, iStation) = Stations(iStation).ABSRate;
+                [~, ~, attachedUsers] = find([Stations(iStation).Users.UeId] ~= -1);
+                sum = 0;
+                for iUser = attachedUsers
+                    sum = sum + Users(iUser).Rx.Bits.ok;
+                end
+                obj.txBits(schRound, iStation) = sum;
+            end
+        end
+
+        function obj = recordNABS(obj, Stations)
+                obj.nABS = Stations(1).nABS;
+        end
+        
+        function obj = recordActiveUsers(obj, Users, Stations, schRound)
+            for iStation = 1:length(Stations)
+            
+                for iUser = 1:length(Users)
+                    %get active users as user waiting for packets
+                    if (Users(iUser).Queue.Size ~= 0) && (Users(iUser).ENodeBID==iStation)
+                        obj.activeUsers(schRound, iStation, iUser) = 1;
+                    end
+                
+                end
             end
         end
         
         
-		
 		% UE metrics
 		function obj = recordUeMetrics(obj, Users, schRound)
 			% Increment the scheduling round for Matlab's indexing

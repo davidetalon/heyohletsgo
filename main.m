@@ -66,9 +66,14 @@ status = [
 	"boot"];
 
 % Main loop
-
+nTotSim = length(utilLo)*length(utilHi);
+ABSMetrics = ABSState(Param, nTotSim);
+nSim = 0;
+nABS = Param.nABS;
 for iUtilLo = 1: length(utilLo)
 	for iUtilHi = 1:length(utilHi)
-		simulate(Param, simData, utilLo(iUtilLo), utilHi(iUtilHi));
+		[ABSMetrics, nABS] = simulate(Param, simData, utilLo(iUtilLo), utilHi(iUtilHi), nSim, nABS, ABSMetrics);
+        nSim = nSim + 1;
 	end
 end
+save("results/ABSInfo.mat", 'ABSMetrics');

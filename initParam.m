@@ -24,13 +24,13 @@ Param.numSubFramesMacro = 50;% Integer used to set the number of RBs for a macro
 Param.numSubFramesMicro = 25;% Integer used to set the number of RBs for a micro eNodeB
 Param.numSubFramesUE = 25;% Integer used to set the number of RBs for the uplink
 Param.numMacro = 1;% Integer used to specify the number of macro eNodeBs in the scenario (currently only 1)
-Param.numMicro = 1;% Integer used to specify the number of micro eNodeBs in the scenario
-Param.microPos = 'clusterized'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
+Param.numMicro = 3;% Integer used to specify the number of micro eNodeBs in the scenario
+Param.microPos = 'uniform'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
 Param.microUniformRadius = 100;% Double radius of distance from centre for microBS in metres
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 2;% Integer used for the number of UEs
+Param.numUsers = 5;% Integer used for the number of UEs
 Param.mobilityScenario = 'straight';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'fullBuffer';% Traffic model
@@ -64,7 +64,7 @@ Param.channel.region = 'DenseUrban';% String to control the channel region
 Param.nboRadius = 100;% Double to set the maximum radius within which eNodeBs are considered as neighbours in metres
 Param.tHyst = 0.002;% Double to set the hysteresis timer threshold in s
 Param.tSwitch = 0.001;% Double to set the eNodeB switching on/off timer in s
-Param.utilLoThr = 2;% Integer for the threshold for the low utilisation range (>= 1)
+Param.utilLoThr = 3;% Integer for the threshold for the low utilisation range (>= 1)
 Param.utilHiThr = 100;% Integer for the threshold for the high utilisation range (<= 100)
 
 %% Scheduling

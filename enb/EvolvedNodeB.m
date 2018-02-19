@@ -257,7 +257,15 @@ classdef EvolvedNodeB
 				end
 				obj.ScheduleUL = temp;
 			end
-		end
+        end
+        
+        function obj = setABSMask(obj, mask)
+            obj.ABSMask = mask;
+        end
+        
+        function obj = setNABS(obj, nABS)
+            obj.nABS = nABS;
+        end
 		
 		% Reset an eNodeB at the end of a scheduling round
 		function obj = reset(obj, nextSchRound)
