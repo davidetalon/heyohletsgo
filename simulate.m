@@ -82,7 +82,7 @@ for iRound = 0:(Param.schRounds-1)
 	sonohilog(sprintf('Round %i/%i',iRound+1,Param.schRounds),'NFO');
 	
 	% refresh UE-eNodeB association
-	simTime = iRound*10^-3;
+	simTime = iRound*10^-3 + nSim * 10 ^ (-3);
 	if mod(simTime, Param.refreshAssociationTimer) == 0
 		sonohilog('Refreshing user association', 'NFO');
 		[Users, Stations] = refreshUsersAssociation(Users, Stations, Channel, Param, simTime);
