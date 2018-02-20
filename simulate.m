@@ -1,4 +1,4 @@
-function [ABSMetrics, nABS] = simulate(Param, DataIn, utilLo, utilHi, nSim, nABS, ABSMetrics)
+function simulate(Param, DataIn, utilLo, utilHi)
 
 %   SIMULATE is used to run a single simulation
 %
@@ -14,6 +14,8 @@ Users = DataIn.Users;
 Channel = DataIn.Channel;
 ChannelEstimator = DataIn.ChannelEstimator;
 SimulationMetrics = MetricRecorder(Param, utilLo, utilHi);
+ABSMetrics = ABSState(Param);
+nABS = Param.nABS;
 
 % Create structures to hold transmission data
 if (Param.storeTxData)
@@ -38,38 +40,6 @@ else
 	load('utils/heatmap/HeatMap_eHATA_fBS_pos_5m_res');
 end
 
-%generating Station's masks with dynamic ABS rate
-%choose the ABS optimization policy
-switch Param.ABSOptimization
-    case 'random'
-        change = randomABS();
-    case 'QLearning'
-        change = qLearningABS();
-    case 'static'
-        change = 0;
-end
-
-%nABS must be positive and not lower or equals the total number of
-%subFrames
-futureNABS = nABS + change;
-if(futureNABS < 0) or (futureNABS > Param.schRounds)
-    nABS = nABS;
-else
-    nABS = futureNABS;
-end
-
-ABSMask = generateABSMask(Param.schRounds, nABS);
-
-for iStation = 1:length(Stations)
-    Stations(iStation)= Stations(iStation).setNABS(nABS);
-    Stations(iStation) = Stations(iStation).setABSMask(ABSMask);
-end
-
-
-%Record current nABS
-ABSMetrics = ABSMetrics.recordNABS(nSim, nABS);
-
-
 
 % if Param.draw
 % 	drawHeatMap(HeatMap, Stations);
@@ -80,9 +50,9 @@ for iRound = 0:(Param.schRounds-1)
 	% In each scheduling round, check UEs associated with each station and
 	% allocate PRBs through the scheduling function per each station
 	sonohilog(sprintf('Round %i/%i',iRound+1,Param.schRounds),'NFO');
-	
+    
 	% refresh UE-eNodeB association
-	simTime = iRound*10^-3 + nSim * 10 ^ (-3);
+	simTime = iRound*10^-3;
 	if mod(simTime, Param.refreshAssociationTimer) == 0
 		sonohilog('Refreshing user association', 'NFO');
 		[Users, Stations] = refreshUsersAssociation(Users, Stations, Channel, Param, simTime);
@@ -92,8 +62,49 @@ for iRound = 0:(Param.schRounds-1)
 	for iUser = 1:length(Users)
 		queue = updateTrQueue(trSource, simTime, Users(iUser));
 		Users(iUser) = setQueue(Users(iUser), queue);
-	end
+    end
 	
+    % ---------------------
+	% ABS CHOICE
+	% ---------------------
+    if (mod(iRound, 10)==0)
+        %generating Station's masks with dynamic ABS rate
+        %choose the ABS optimization policy
+        switch Param.ABSOptimization
+            case 'random'
+                change = randomABS();
+            case 'QLearning'
+                change = qLearningABS();
+            case 'static'
+                change = 0;
+        end
+
+        %nABS must be positive and not lower or equals the total number of
+        %subFrames
+        futureNABS = nABS + change;
+        if (futureNABS < 0) 
+            choices = [0 1];
+            change = increase(randi(2));
+            nABS = nABS + change;
+        elseif (futureNABS > 10)
+            choices = [-1 0];
+            change = increase(randi(2));
+            nABS = nABS + change;
+        else
+            nABS = futureNABS;
+        end
+
+        ABSMask = generateABSMask(10, nABS);
+
+        for iStation = 1:length(Stations)
+            Stations(iStation)= Stations(iStation).setNABS(nABS);
+            Stations(iStation) = Stations(iStation).setABSMask(ABSMask);
+        end
+
+        %Record current nABS
+        ABSMetrics = ABSMetrics.recordNABS(floor(iRound/10), nABS, change);
+        
+    end
 	% ---------------------
 	% ENODEB SCHEDULE START
 	% ---------------------
@@ -201,6 +212,20 @@ for iRound = 0:(Param.schRounds-1)
 	SimulationMetrics = SimulationMetrics.recordUeMetrics(Users, iRound);
     
 
+    % --------------------
+    % ABS STATE RECORDING
+    % --------------------
+    if (mod(iRound, 10) == 0)    
+        %recording state
+        sonohilog('ABS state recording', 'NFO');
+        ABSMetrics = ABSMetrics.recordState(floor(iRound/10), Stations, Param, SimulationMetrics);
+
+        %recording reward for the choosen action
+        if iRound ~= 0
+           ABSMetrics = ABSMetrics.recordReward(floor(iRound/10));
+        end
+    end
+    
 	% -----------
 	% UE MOVEMENT
 	% -----------
@@ -232,20 +257,10 @@ for iRound = 0:(Param.schRounds-1)
 	
 end % end round
 
-% --------------------
-% ABS STATE RECORDING
-% --------------------
-    
-%recording state
-sonohilog('ABS state recording', 'NFO');
-ABSMetrics = ABSMetrics.recordState(nSim, Stations, Param, SimulationMetrics);
-    
-%recording reward for the choosen action
-if nSim ~= 0
-   ABSMetrics = ABSMetrics.recordReward(nSim);
-end
+
  
 
 % Once this simulation set is done, save the output
 save(strcat('results/', outPrexif, '.mat'), 'SimulationMetrics');
+save("results/ABSInfo.mat", 'ABSMetrics');
 end

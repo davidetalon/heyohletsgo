@@ -38,7 +38,7 @@ classdef MetricRecorder
 			obj.harqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
 			obj.arqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
             obj.txBits = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
-            obj.nABS = 0;
+            obj.nABS = zeros(Param.schRounds);
             obj.activeUsers = zeros(Param.schRounds, Param.numMacro + Param.numMicro, Param.numUsers);
 			
 			% Initialise for UE
@@ -66,7 +66,7 @@ classdef MetricRecorder
 			obj = obj.recordHarqRtx(Stations, schRound);
 			obj = obj.recordArqRtx(Stations, schRound);
             obj = obj.recordTxBits(Stations, Users, schRound);
-            obj = obj.recordNABS(Stations);
+            obj = obj.recordNABS(schRound, Stations);
             obj = obj.recordActiveUsers(Users, Stations, schRound);
 		end
 		
@@ -127,8 +127,8 @@ classdef MetricRecorder
             end
         end
 
-        function obj = recordNABS(obj, Stations)
-                obj.nABS = Stations(1).nABS;
+        function obj = recordNABS(obj, schRound, Stations)
+                obj.nABS(schRound) = Stations(1).nABS;
         end
         
         function obj = recordActiveUsers(obj, Users, Stations, schRound)
