@@ -1,5 +1,5 @@
 % SIMULATION PARAMETERS
-Param.reset = 0;% Boolean used to reset the folder structure and reload everything
+Param.reset = 1;% Boolean used to reset the folder structure and reload everything
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
@@ -9,7 +9,7 @@ Param.draw = 0;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 3000;
+Param.schRounds = 50;
 Param.seed = 42;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -30,7 +30,7 @@ Param.microUniformRadius = 100;% Double radius of distance from centre for micro
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 9;% Integer used for the number of UEs
+Param.numUsers = 15;% Integer used for the number of UEs
 Param.mobilityScenario = 'straight';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model
@@ -105,10 +105,11 @@ switch Param.trafficModel
         
     case 'webBrowsing'
         if (exist('traffic/webBrowsing.mat', 'file') ~= 2 || Param.reset)
-			Param.trSource = loadWebBrowsingTraffic(Param.schRounds*10^-3);
+			Param.trSource = loadWebBrowsingTraffic(Param.schRounds*10^-3, Param.numUsers);
 		else
 			traffic = load('traffic/webBrowsing.mat');
             Param.trSource = traffic.trSource;
+            
             clear traffic
         end
 	case 'fullBuffer'

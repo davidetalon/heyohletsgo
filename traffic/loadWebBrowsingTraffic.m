@@ -1,4 +1,4 @@
-function [trSource] = loadWebBrowsingTraffic (totSimTime)
+function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
 
 %   LOAD WEB BROWSING TRAFFIC is used to get data in terms of 
 %   packet size and request time.
@@ -29,36 +29,42 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime)
   mu = 10;
   sigma = 5;
   
-  times = 0;
-  sizes = pckSizes(1+sum(rand>CumProbSum));
   
-  i = 1;
-  while times(i) <= totSimTime
+  
+  %generate a different traffic model for each user
+  for iUser = 1:numUsers  
       
-    %sampling packet size
-    pckSize = pckSizes(1+sum(rand>CumProbSum));
-    
-    %avoiding Nan
-    interTime = nan;
-    while isnan(interTime)
+      %initialize sizes and times
+      times = 0;
+      sizes = pckSizes(1+sum(rand>CumProbSum));
       
-      %sampling arrival rate mean
-      lambda = normrnd(mu, sigma);
-      
-      %exponential interarrival times
-      interTime = exprnd(1/lambda);
-    end
-    
-    %getting absolute arrival time
-    times = [times (times(i) + interTime)];
+      i = 1;
+      while times(i) <= totSimTime
 
-      
-    sizes = [sizes pckSize];
-    i = i + 1;
-  end
+        %sampling packet size
+        pckSize = pckSizes(1+sum(rand>CumProbSum));
+
+        %avoiding Nan
+        interTime = nan;
+        while isnan(interTime)
+
+          %sampling arrival rate mean
+          lambda = normrnd(mu, sigma);
+
+          %exponential interarrival times
+          interTime = exprnd(1/lambda);
+        end
+
+        %getting absolute arrival time
+        times = [times (times(i) + interTime)];
+
+        sizes = [sizes pckSize];
+        i = i + 1;
+      end
   
-  trSource(1:length(times),1 ) = times;
-  trSource(1:length(sizes), 2) = sizes;
+      trSource{1, iUser} = times;
+      trSource{2, iUser} = sizes;
+  end
 
   % Sort using the time column if it has to be shuffled (e.g. interleaved source)
   % first column is timestamp
