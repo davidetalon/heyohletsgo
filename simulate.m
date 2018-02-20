@@ -84,11 +84,11 @@ for iRound = 0:(Param.schRounds-1)
         futureNABS = nABS + change;
         if (futureNABS < 0) 
             choices = [0 1];
-            change = increase(randi(2));
+            change = choices(randi(2));
             nABS = nABS + change;
         elseif (futureNABS > 10)
             choices = [-1 0];
-            change = increase(randi(2));
+            change = choices(randi(2));
             nABS = nABS + change;
         else
             nABS = futureNABS;
