@@ -28,10 +28,10 @@ end
 
 for j = 1:size(input_states_sequence,1)
    
-    output_stetes_sequence(j,1) = ceil((S_values-1)*(input_states_sequence(j,1)/S_max));
-    output_stetes_sequence(j,2) = ceil((S_values-1)*(input_states_sequence(j,2)/S_max));
-    output_stetes_sequence(j,3) = ceil((N_values-1)*(input_states_sequence(j,3)/N_max));
-    output_stetes_sequence(j,4) = ceil((N_values-1)*(input_states_sequence(j,4)/N_max));
+    output_stetes_sequence(j,1) = round((S_values-1)*(input_states_sequence(j,1)/S_max))+1;
+    output_stetes_sequence(j,2) = round((S_values-1)*(input_states_sequence(j,2)/S_max))+1;
+    output_stetes_sequence(j,3) = round((N_values-1)*(input_states_sequence(j,3)/N_max))+1;
+    output_stetes_sequence(j,4) = round((N_values-1)*(input_states_sequence(j,4)/N_max))+1;
     
 end
 
