@@ -20,7 +20,7 @@ classdef ABSState
             obj.nUEMacro = zeros(floor(Param.schRounds/10), Param.numMacro);
             obj.nUEMicro = zeros(floor(Param.schRounds/10), 1);
             obj.nABS = zeros(floor(Param.schRounds/10), 1);
-            obj.choice = zeros(floor(Param.schRounds/10), 1);
+            obj.choice = zeros(floor(Param.schRounds/10) - 1, 1);
             obj.Reward = zeros(floor(Param.schRounds/10) - 1, 1);
         end
         
@@ -58,12 +58,15 @@ classdef ABSState
             obj.nUEMicro(nFrame + 1) = nTotUEMicro /Param.numMicro;
         end
         
-        function obj = recordNABS(obj, nFrame, nABS, choice)
+        function obj = recordNABS(obj, nFrame, nABS)
             
             %indexes start from 1
             nFrame = nFrame + 1;
             
             obj.nABS(nFrame) = nABS; 
+        end
+        
+        function obj = recordChoice(obj, nFrame, choice)
             obj.choice(nFrame) = choice;
         end
         

@@ -103,7 +103,11 @@ for iRound = 0:(Param.schRounds-1)
         end
 
         %Record current nABS
-        ABSMetrics = ABSMetrics.recordNABS(floor(iRound/10), nABS, change);
+        ABSMetrics = ABSMetrics.recordNABS(floor(iRound/10), nABS);
+        
+        if iRound ~=0
+            ABSMetrics = ABSMetrics.recordChoice(floor(iRound/10), change);
+        end
         
     end
 	% ---------------------
