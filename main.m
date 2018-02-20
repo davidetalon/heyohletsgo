@@ -20,6 +20,11 @@ clearvars;
 clc;
 close all;
 
+% Determine where your m-file's folder is.
+folder = pwd; 
+% Add that folder plus all subfolders to the path.
+addpath(genpath(folder));
+
 % Load parameters
 load('SimulationParameters.mat');
 

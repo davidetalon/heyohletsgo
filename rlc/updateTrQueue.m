@@ -14,14 +14,14 @@ function [newQueue] = updateTrQueue(src, simTime, User)
 	newQueue = User.Queue;
 	if (User.Queue.Size <= 0 && simTime >= User.Queue.Time)
 		newQueue.Size = 0;
-		for (ix = 1:length(src))
+		for (ix = User.Queue.Pkt:length(src))
 			if (src(ix, 1) <= simTime)
 				% increase frame size and update frame delivery deadline
 				newQueue.Size = newQueue.Size + src(ix, 2);
 				newQueue.Time = src(ix, 1);
 			else
 				% stamp the packet id in the queue and exit
-				newQueue.Pkt = newQueue.Pkt + 1;
+				newQueue.Pkt = newQueue.Pkt + ix;
 				break;
 			end;
 		end;
