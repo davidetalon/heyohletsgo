@@ -46,6 +46,7 @@ end
 % end
 
 % Rounds are 0-based for the subframe indexing, so add 1 when needed
+tic
 for iRound = 0:(Param.schRounds-1)
 	% In each scheduling round, check UEs associated with each station and
 	% allocate PRBs through the scheduling function per each station
@@ -235,12 +236,12 @@ for iRound = 0:(Param.schRounds-1)
 	end
 	
 	% Plot resource grids for all users
-	if Param.draw
-    delete_figs; % Redraws the plots
-		[hScatter(1), hScatter(2)] = plotConstDiagram_rx(Stations,Users);
-		[hGrids(1), hGrids(2)] = plotReGrids(Users);
-		[hSpectrums(1)] = plotSpectrums(Users,Stations);
-	end
+% 	if Param.draw
+%     delete_figs; % Redraws the plots
+% 		[hScatter(1), hScatter(2)] = plotConstDiagram_rx(Stations,Users);
+% 		[hGrids(1), hGrids(2)] = plotReGrids(Users);
+% 		[hSpectrums(1)] = plotSpectrums(Users,Stations);
+% 	end
 	
 	
 	% --------------------
@@ -256,7 +257,7 @@ for iRound = 0:(Param.schRounds-1)
 	Channel = Channel.resetChannelModels();
 	
 end % end round
-
+toc
 
 
  
