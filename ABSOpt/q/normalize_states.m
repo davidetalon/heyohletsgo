@@ -24,6 +24,6 @@ for j = 1:size(input_states_sequence,1)
    
     output_stetes_sequence(j,1) = round((S_values-1)*(input_states_sequence(j,1)/S_ratio_max))+1;
     output_stetes_sequence(j,2) = round((N_values-1)*(input_states_sequence(j,2)/N_ratio_max))+1;
-  
+    output_stetes_sequence(j,3) = input_states_sequence(j,3)/2;
 end
 
