@@ -1,4 +1,4 @@
-function [ change ] = qLearningABS( input_args )
+function [ nABS, change ] = qLearningABS( nABS )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 

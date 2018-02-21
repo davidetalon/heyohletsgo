@@ -9,7 +9,7 @@ Param.draw = 0;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 10000;
+Param.schRounds = 10;
 Param.seed = 42;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -30,7 +30,7 @@ Param.microUniformRadius = 100;% Double radius of distance from centre for micro
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 15;% Integer used for the number of UEs
+Param.numUsers = 2;% Integer used for the number of UEs
 Param.mobilityScenario = 'straight';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model

@@ -1,4 +1,4 @@
-function [ change , nABS] = randomABS(nABS)
+function [ nABS , change] = randomABS(nABS)
 %RANDOMABS Summary of this function goes here
 %   decrease/hold/increase the number of ABS with uniform probability
 
