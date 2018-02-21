@@ -1,4 +1,4 @@
-function simulate(Param, DataIn, utilLo, utilHi)
+function simulate(Param, DataIn, utilLo, utilHi, subfolderName)
 
 %   SIMULATE is used to run a single simulation
 %
@@ -73,26 +73,11 @@ for iRound = 0:(Param.schRounds-1)
         %choose the ABS optimization policy
         switch Param.ABSOptimization
             case 'random'
-                change = randomABS();
+                [nABS, change] = randomABS(nABS);
             case 'QLearning'
-                change = qLearningABS();
+                [nABS, change] = qLearningABS(nABS);
             case 'static'
                 change = 0;
-        end
-
-        %nABS must be positive and not lower or equals the total number of
-        %subFrames
-        futureNABS = nABS + change;
-        if (futureNABS < 0) 
-            choices = [0 1];
-            change = choices(randi(2));
-            nABS = nABS + change;
-        elseif (futureNABS > 10)
-            choices = [-1 0];
-            change = choices(randi(2));
-            nABS = nABS + change;
-        else
-            nABS = futureNABS;
         end
 
         ABSMask = generateABSMask(10, nABS);
@@ -267,6 +252,6 @@ toc
  
 
 % Once this simulation set is done, save the output
-save(strcat('results/', outPrexif, '.mat'), 'SimulationMetrics');
-save("results/ABSInfo.mat", 'ABSMetrics');
+save(strcat('results/',subfolderName,'/', outPrexif, '.mat'), 'SimulationMetrics');
+save(strcat("results/",subfolderName,"/ABSState.mat"),"ABSMetrics");
 end
