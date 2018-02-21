@@ -39,7 +39,7 @@ classdef ABSState
                 end 
             end
             %get throughput for macro cells
-            obj.SMacro(nFrame + 1, 1:length(macros)) = sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,macros), 1) * 10 * 10^-3;
+            obj.SMacro(nFrame + 1, 1:length(macros)) = sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,macros), 1) / (10 * 10^-3);
             %get the number of active users
             [~, macroUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, macros, :));
             obj.nUEMacro(nFrame + 1,1:length(macros)) = length(unique(macroUsers));
@@ -54,7 +54,7 @@ classdef ABSState
                 [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, iMicro, :));
                 nTotUEMicro = nTotUEMicro + length(unique(microUsers));
             end
-            obj.SMicro(nFrame + 1)= (sTotMicro * 10 * 10^-3) / Param.numMicro;
+            obj.SMicro(nFrame + 1)= (sTotMicro / (10 * 10^-3)) / Param.numMicro;
             obj.nUEMicro(nFrame + 1) = nTotUEMicro /Param.numMicro;
         end
         

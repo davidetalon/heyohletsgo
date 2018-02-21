@@ -118,7 +118,8 @@ classdef MetricRecorder
         
         function obj = recordTxBits(obj, Stations, Users, schRound)
             for iStation = 1:length(Stations)
-                [~, ~, attachedUsers] = find([Stations(iStation).Users.UeId] ~= -1);
+                attachedUsers = [Stations(iStation).Users.UeId];
+                attachedUsers = attachedUsers(attachedUsers > 0);
                 sum = 0;
                 for iUser = attachedUsers
                     sum = sum + Users(iUser).Rx.Bits.ok;
