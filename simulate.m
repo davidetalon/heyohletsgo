@@ -17,6 +17,11 @@ SimulationMetrics = MetricRecorder(Param, utilLo, utilHi);
 ABSMetrics = ABSState(Param);
 nABS = Param.nABS;
 
+%%Change randomly ABS
+number_of_frames = ceil(Param.schRounds/10);
+ABS_change = (((randi(3,number_of_frames,1))-1).*2)-2
+%
+
 % Create structures to hold transmission data
 if (Param.storeTxData)
 	[tbMatrix, tbMatrixInfo] = initTbMatrix(Param);
@@ -73,13 +78,25 @@ for iRound = 0:(Param.schRounds-1)
         %choose the ABS optimization policy
         switch Param.ABSOptimization
             case 'random'
-                [nABS, change] = randomABS(nABS);
+                change = ABS_change(iRound/10 + 1 );
+                
+                if nABS == 10 && change == 2
+                    change = -2;
+                elseif nABS == 0 && change == -2
+                    change = 2;
+                end
+                
+                nABS = nABS + change;
+             
             case 'QLearning'
                 [nABS, change] = qLearningABS(nABS);
             case 'static'
                 change = 0;
         end
-
+        
+        fprintf('\n\nABS = %5.0f\n\n', nABS);
+        fprintf('\n\nRound = %5.0f\n\n', iRound);
+        
         ABSMask = generateABSMask(10, nABS);
 
         for iStation = 1:length(Stations)
@@ -89,7 +106,7 @@ for iRound = 0:(Param.schRounds-1)
 
         %Record current nABS
         ABSMetrics = ABSMetrics.recordNABS(iRound/10, nABS);
-        
+       
         if iRound ~=0
             ABSMetrics = ABSMetrics.recordChoice(iRound/10, change);
         end
