@@ -14,7 +14,7 @@ increase = [-2 0 2];
             nABS = nABS + change;
         else
             change = increase(randi(3));
-            nABS = futureNABS;
+            nABS = nABS + change;
         end
 end
 
