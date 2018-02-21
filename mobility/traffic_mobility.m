@@ -112,7 +112,7 @@ while (~valid)
         end
         
         % move along the final building
-        while (dist_2d(x(t_ms), y(t_ms), xf, yf) > 0.1),
+        while (dist_2d(x(t_ms), y(t_ms), xf, yf) > 0.1)
             
             % check if the pedestrian is on the right side
             side_distance = min([abs(x(t_ms) - xf) abs(y(t_ms) - yf)]);

@@ -3,13 +3,13 @@ Param.reset = 1;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 0;
+Param.draw = 1;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 50;
+Param.schRounds = 100;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -25,15 +25,15 @@ Param.numSubFramesMicro = 25;% Integer used to set the number of RBs for a micro
 Param.numSubFramesUE = 25;% Integer used to set the number of RBs for the uplink
 Param.numMacro = 1;% Integer used to specify the number of macro eNodeBs in the scenario (currently only 1)
 Param.numMicro = 3;% Integer used to specify the number of micro eNodeBs in the scenario
-Param.microPos = 'clusterized'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
-Param.microUniformRadius = 40;% Double radius of distance from centre for microBS in metres
+Param.microPos = 'uniform'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
+Param.microUniformRadius = 200;% Double radius of distance from centre for microBS in metres
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 10;% Integer used for the number of UEs
+Param.numUsers = 12;% Integer used for the number of UEs
 Param.mobilityScenario = 'pedestrian';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
-Param.trafficModel = 'webBrowsing';% Traffic model
+Param.trafficModel = 'fullBuffer';% Traffic model
 Param.mobilityStep = 0.01;
 Param.pucchFormat = 2;% PUCCH format (only 2 and 3 work)
 Param.handoverTimer = 0.01;% X2 Handover timer in s (time needed from starting and handover to its completion)

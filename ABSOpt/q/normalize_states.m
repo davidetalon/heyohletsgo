@@ -1,6 +1,7 @@
-function [output_stetes_sequence] = normalize_states(input_states_sequence, S_values,N_values)
+function [output_stetes_sequence, output_rewards_sequence] = normalize_states(input_states_sequence, input_rewards_sequence, S_values,N_values)
 
 output_stetes_sequence = input_states_sequence;
+output_rewards_sequence = input_rewards_sequence;
 
 S_ratio_max = 0;
 N_ratio_max = 0;
