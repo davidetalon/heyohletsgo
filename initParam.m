@@ -9,7 +9,7 @@ Param.draw = 0;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 10;
+Param.schRounds = 30;
 Param.seed = 42;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -25,13 +25,13 @@ Param.numSubFramesMicro = 25;% Integer used to set the number of RBs for a micro
 Param.numSubFramesUE = 25;% Integer used to set the number of RBs for the uplink
 Param.numMacro = 1;% Integer used to specify the number of macro eNodeBs in the scenario (currently only 1)
 Param.numMicro = 3;% Integer used to specify the number of micro eNodeBs in the scenario
-Param.microPos = 'uniform'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
+Param.microPos = 'clusterized'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
 Param.microUniformRadius = 100;% Double radius of distance from centre for microBS in metres
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 2;% Integer used for the number of UEs
-Param.mobilityScenario = 'straight';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
+Param.numUsers = 28;% Integer used for the number of UEs
+Param.mobilityScenario = 'pedestrian';% Integer to choose the mobility scenario (pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/buildings.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model
 Param.mobilityStep = 0.01;
