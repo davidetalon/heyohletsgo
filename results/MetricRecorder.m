@@ -38,7 +38,7 @@ classdef MetricRecorder
 			obj.harqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
 			obj.arqRtx = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
             obj.txBits = zeros(Param.schRounds, Param.numMacro + Param.numMicro);
-            obj.nABS = zeros(Param.schRounds);
+            obj.nABS = zeros(Param.schRounds,1);
             obj.activeUsers = zeros(Param.schRounds, Param.numMacro + Param.numMicro, Param.numUsers);
 			
 			% Initialise for UE
