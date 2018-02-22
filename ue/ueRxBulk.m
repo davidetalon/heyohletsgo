@@ -15,10 +15,11 @@ function Users = ueRxBulk(Stations, Users, cec)
 
     % Get serving station
     station = Stations([Stations.NCellID] == user.ENodeBID);
-    scheduled = checkUserSchedule(user,station);
-    if ~scheduled
+    %scheduled = checkUserSchedule(user,station);
+    %scheduled = (Users(iUser).Scheduled) && (Users(iUser).ENodeBID == station);
+    if ~((Users(iUser).Scheduled) && Users(iUser).ENodeBID == station.NCellID)
       % Pass user iteration the user is not scheduled.
-      continue;
+      continue
     end
 
     % Apply Offset

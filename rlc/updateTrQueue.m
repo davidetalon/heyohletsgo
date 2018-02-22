@@ -16,7 +16,7 @@ function [newQueue] = updateTrQueue(trafficModel, src, simTime, User)
             newQueue = User.Queue;
             if (User.Queue.Size <= 0 && simTime >= User.Queue.Time)
                 newQueue.Size = 0;
-                for (ix =1:length(src{1, User.NCellID}))
+                for ix = User.Queue.Pkt + 1:length(src{1, User.NCellID})
                     if (src{1, User.NCellID}(ix) <= simTime)
                         % increase frame size and update frame delivery deadline
 %                         newQueue.Size = newQueue.Size + src{2, 1}(ix);
@@ -25,7 +25,7 @@ function [newQueue] = updateTrQueue(trafficModel, src, simTime, User)
                         newQueue.Time = src{1, User.NCellID}(ix);
                     else
                         % stamp the packet id of the last loaded pck in the queue and exit
-                        newQueue.Pkt = newQueue.Pkt + 1;
+                        newQueue.Pkt = newQueue.Pkt + ix - 1;
                         break;
                     end
                 end

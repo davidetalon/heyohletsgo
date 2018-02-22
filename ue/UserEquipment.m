@@ -86,7 +86,8 @@ classdef UserEquipment
 			obj.Scheduled = status;
 		end
 		
-		% move User
+
+        % move User
 		function obj = move(obj, ts, Param)
 			% if we are at the beginning, don't move
 			if ts > 0 && mod(ts * 1000, Param.mobilityStep * 1000) == 0

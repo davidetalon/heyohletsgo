@@ -12,12 +12,14 @@ function [Stations, Users] = enbTxBulk(Stations, Users, Param, timeNow)
 	%		Users			-> Updated UEs
 
 	for iUser = 1:length(Users)
+        
 		% get the eNodeB this UE is connected to
 		iServingStation = find([Stations.NCellID] == Users(iUser).ENodeBID);
 		
 		% Check if this UE is scheduled otherwise skip
-		if checkUserSchedule(Users(iUser), Stations(iServingStation))
-			% generate transport block for the user
+		%if checkUserSchedule(Users(iUser), Stations(iServingStation))
+		if Users(iUser).Scheduled && Users(iUser).ENodeBID == iServingStation
+            % generate transport block for the user
 			[Stations(iServingStation), Users(iUser)] = ... 
 				createTransportBlock(Stations(iServingStation), Users(iUser), Param, timeNow);
 			
@@ -29,8 +31,10 @@ function [Stations, Users] = enbTxBulk(Stations, Users, Param, timeNow)
 			% setup current subframe for serving eNodeB
 			if ~isempty(Users(iUser).Codeword)
 				[Stations(iServingStation), Users(iUser)] = createSymbols(Stations(iServingStation), Users(iUser));
-			end
-		end
+            end
+        end
+        
+       
 	end
 
 	% Once all PDSCH symbols have been generated and pushed into the grid, we can modulate
