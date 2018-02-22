@@ -67,7 +67,7 @@ classdef MetricRecorder
 			obj = obj.recordArqRtx(Stations, schRound);
             obj = obj.recordTxBits(Stations, Users, schRound);
             obj = obj.recordNABS(schRound, Stations);
-            obj = obj.recordActiveUsers(Users, Stations, schRound);
+            %obj = obj.recordActiveUsers(Users, Stations, schRound);
 		end
 		
 		function obj = recordUtil(obj, Stations, schRound)
@@ -132,30 +132,33 @@ classdef MetricRecorder
                 obj.nABS(schRound) = Stations(1).nABS;
         end
         
+        function obj = recordActiveUsers(obj, Users, Stations, schRound)
+            
+            schRound = schRound + 1;
+            
+            for iStation = 1:length(Stations)
+                
+                for iUser = 1:length(Users)
+                    %get active users as user waiting for packets
+                    if (Users(iUser).Queue.Size >= 0) && (Users(iUser).ENodeBID==iStation)
+                        obj.activeUsers(schRound, iStation, iUser) = 1;
+                    end
+                
+                end
+            end
+        end
+
 %         function obj = recordActiveUsers(obj, Users, Stations, schRound)
 %             for iStation = 1:length(Stations)
 %                 
 %                 for iUser = 1:length(Users)
-%                     %get active users as user waiting for packets
-%                     if (Users(iUser).Queue.Size ~= 0) && (Users(iUser).ENodeBID==iStation)
+%                     scheduled = checkUserSchedule(Users(iUser),Stations(iStation));
+%                     if scheduled == 1
 %                         obj.activeUsers(schRound, iStation, iUser) = 1;
 %                     end
-%                 
 %                 end
 %             end
 %         end
-
-        function obj = recordActiveUsers(obj, Users, Stations, schRound)
-            for iStation = 1:length(Stations)
-                
-                for iUser = 1:length(Users)
-                    scheduled = checkUserSchedule(Users(iUser),Stations(iStation));
-                    if scheduled == 1
-                        obj.activeUsers(schRound, iStation, iUser) = 1;
-                    end
-                end
-            end
-        end
         
         
 		% UE metrics

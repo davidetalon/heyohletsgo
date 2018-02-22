@@ -147,6 +147,9 @@ for iRound = 0:(Param.schRounds-1)
 	% ENODEB SCHEDULE END
 	% -------------------
 	
+    %recording active users
+    SimulationMetrics = SimulationMetrics.recordActiveUsers(Users, Stations, iRound);
+    
 	% ----------------------------------------------
 	% ENODEB DL-SCH & PDSCH CREATION AND MAPPING
 	% ----------------------------------------------

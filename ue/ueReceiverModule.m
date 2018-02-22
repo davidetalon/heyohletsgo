@@ -310,6 +310,9 @@ classdef ueReceiverModule
 			obj.Throughput = 0;
 			obj.SchIndexes = [];
 			obj.PDSCH = [];
+            obj.Bits.tot = 0;
+			obj.Bits.err = 0;
+			obj.Bits.ok = 0;
 		end
 		
 	end
