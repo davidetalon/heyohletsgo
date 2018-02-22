@@ -54,7 +54,8 @@ classdef ABSState
                 [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, iMicro, :));
                 nTotUEMicro = nTotUEMicro + length(unique(microUsers));
             end
-            obj.SMicro(nFrame + 1)= (sTotMicro / (10 * 10^-3)) / Param.numMicro;
+            thrMicro = sTotMicro / (10*10^-3);
+            obj.SMicro(nFrame + 1)= thrMicro / Param.numMicro;
             obj.nUEMicro(nFrame + 1) = nTotUEMicro /Param.numMicro;
         end
         

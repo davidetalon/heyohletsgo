@@ -26,7 +26,7 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
   
   
   %gaussian parameters
-  mu = 10;
+  mu = 125;
   sigma = 5;
   
   
@@ -56,14 +56,16 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
         end
 
         %getting absolute arrival time
+      
         times = [times (times(i) + interTime)];
 
         sizes = [sizes pckSize];
         i = i + 1;
+        
       end
   
-      trSource{1, iUser} = times;
-      trSource{2, iUser} = sizes;
+      trSource{1, iUser} = times(1:length(times)-1);
+      trSource{2, iUser} = sizes(1:length(sizes) -1);
   end
 
   % Sort using the time column if it has to be shuffled (e.g. interleaved source)
