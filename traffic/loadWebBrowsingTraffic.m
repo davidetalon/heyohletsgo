@@ -14,7 +14,7 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
 %   trSource   ->  matrix with frameSizes
 
   %packet sizes [Kb]
-  pckSizes = [10 25 50 75 100 250 500 750 1000 2500 5000 7500];
+  pckSizes = [10 25 50 75 100 250 500 750 1000 2500 5000 7500 10000];
   
   %packet sizes with linearly decreasing probabilities
   pckProb = 1:size(pckSizes,2);
@@ -26,8 +26,8 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
   
   
   %gaussian parameters
-  mu = 125;
-  sigma = 5;
+  mu = 75;
+  sigma = 10;
   
   
   
