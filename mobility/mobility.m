@@ -1,9 +1,9 @@
-function [ obj ] = mobility( obj, Param )
+function [ obj ] = mobility( obj, Param)
 
 
 switch Param.mobilityScenario
     case 'pedestrian'
-        obj.Velocity = 1; % in m/s
+        obj.Velocity = 15; % in m/s
         [x, y] = traffic_mobility(1, obj.Velocity, obj.Seed, Param.mobilityStep);
     case 'vehicular'
         obj.Velocity = 10; % in m/s
@@ -17,6 +17,10 @@ switch Param.mobilityScenario
     case 'straight'
         obj.Velocity = 10 / 12; % in m/s
         [x, y] = straight_mobility( obj.Velocity, obj.Seed, Param );
+    case 'city'
+        [x, y, obj] = city_mobility(obj, Param.mobilityStep,Param.schRounds, Param.city);
+        x = x';
+        y = y';
     otherwise
         sonohilog('Unknown mobility scenario selected','ERR');
         return;

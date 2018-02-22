@@ -6,7 +6,7 @@ function [Users] = createUsers (Param)
 %   Param.numUsers  ->  number of UEs
 %
 %   Users  					-> struct with all Users details
-
+    
 	for iUser = 1: (Param.numUsers)
 		Users(iUser) = UserEquipment(Param, iUser);
 	end
