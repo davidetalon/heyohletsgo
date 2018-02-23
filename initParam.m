@@ -26,7 +26,7 @@ Param.reset = 1;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 1;
+Param.draw = 0;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
@@ -53,7 +53,7 @@ Param.microUniformRadius = 80;% Double radius of distance from centre for microB
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 23;% Integer used for the number of UEs
+Param.numUsers = 15;% Integer used for the number of UEs
 Param.mobilityScenario = 'city';% Integer to choose the mobility scenario (city,pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/myCity.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model
