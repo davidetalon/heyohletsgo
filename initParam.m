@@ -32,7 +32,7 @@ Param.draw = 1;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 500;
+Param.schRounds = 100;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -56,7 +56,7 @@ Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
 Param.numUsers = 5;% Integer used for the number of UEs
 Param.mobilityScenario = 'city';% Integer to choose the mobility scenario (city,pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/myCity.txt';% Path for loading the file with the buildings
-Param.trafficModel = 'fullBuffer';% Traffic model
+Param.trafficModel = 'webBrowsing';% Traffic model
 Param.mobilityStep = 0.01;
 Param.pucchFormat = 2;% PUCCH format (only 2 and 3 work)
 Param.handoverTimer = 0.01;% X2 Handover timer in s (time needed from starting and handover to its completion)

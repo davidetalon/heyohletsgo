@@ -16,9 +16,9 @@ classdef ABSState
         
         function obj = ABSState(Param)
             obj.SMacro = zeros(floor(Param.schRounds/10), Param.numMacro);
-            obj.SMicro = zeros(floor(Param.schRounds/10), 1);
+            obj.SMicro = zeros(floor(Param.schRounds/10), Param.numMicro);
             obj.nUEMacro = zeros(floor(Param.schRounds/10), Param.numMacro);
-            obj.nUEMicro = zeros(floor(Param.schRounds/10), 1);
+            obj.nUEMicro = zeros(floor(Param.schRounds/10), Param.numMicro);
             obj.nABS = zeros(floor(Param.schRounds/10), 1);
             obj.choice = zeros(floor(Param.schRounds/10) - 1, 1);
             obj.Reward = zeros(floor(Param.schRounds/10) - 1, 1);
@@ -46,17 +46,24 @@ classdef ABSState
             
             %compute the average number of active users and throughput per
             %micro cell
-            sTotMicro = 0;
-            nTotUEMicro = 0;
             micros = setdiff(1:length(Stations), macros);
             for iMicro = micros 
-                sTotMicro = sTotMicro + sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,iMicro), 1);
+                obj.SMicro(iMicro) = sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,iMicro), 1) / (10*10^-3);
                 [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, iMicro, :));
-                nTotUEMicro = nTotUEMicro + length(unique(microUsers));
+                obj.nUEMicro(iMicro) = length(unique(microUsers));
             end
-            thrMicro = sTotMicro / (10*10^-3);
-            obj.SMicro(nFrame + 1)= thrMicro / Param.numMicro;
-            obj.nUEMicro(nFrame + 1) = nTotUEMicro /Param.numMicro;
+            
+%             sTotMicro = 0;
+%             nTotUEMicro = 0;
+%             micros = setdiff(1:length(Stations), macros);
+%             for iMicro = micros 
+%                 sTotMicro = sTotMicro + sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,iMicro), 1) ;
+%                 [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, iMicro, :));
+%                 nTotUEMicro = nTotUEMicro + length(unique(microUsers));
+%             end
+%             thrMicro = sTotMicro / (10*10^-3);
+%             obj.SMicro(nFrame + 1)= thrMicro / Param.numMicro;
+%             obj.nUEMicro(nFrame + 1) = nTotUEMicro /Param.numMicro;
         end
         
         function obj = recordNABS(obj, nFrame, nABS)
@@ -77,6 +84,7 @@ classdef ABSState
             state.SMicro = obj.SMicro(nFrame);
             state.nUEMacro = obj.nUEMacro(nFrame);
             state.nUEMicro = obj.nUEMicro(nFrame);
+            state.nABS = obj.nABS(nFrame);
             
             %reward refers to previous state
             obj.Reward(nFrame) = findReward(state);
