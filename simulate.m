@@ -73,12 +73,12 @@ for iRound = 0:(Param.schRounds-1)
     % ---------------------
 	% ABS CHOICE
 	% ---------------------
-    if (mod(iRound, 10)==0)
+    if (mod(iRound + 1, 10)==0)
         %generating Station's masks with dynamic ABS rate
         %choose the ABS optimization policy
         switch Param.ABSOptimization
             case 'random'
-                change = ABS_change(iRound/10 + 1 );
+                change = ABS_change((iRound + 1)/10 );
                 
                 if nABS == 10 && change == 2
                     change = -2;
@@ -105,10 +105,12 @@ for iRound = 0:(Param.schRounds-1)
         end
 
         %Record current nABS
-        ABSMetrics = ABSMetrics.recordNABS(iRound/10, nABS);
-       
-        if iRound ~=0
-            ABSMetrics = ABSMetrics.recordChoice(iRound/10, change);
+
+        ABSMetrics = ABSMetrics.recordNABS((iRound + 1)/10, nABS);
+
+        
+        if iRound > 10
+            ABSMetrics = ABSMetrics.recordChoice((iRound + 1)/10, change);
         end
         
     end
@@ -225,14 +227,16 @@ for iRound = 0:(Param.schRounds-1)
     % --------------------
     % ABS STATE RECORDING
     % --------------------
-    if (mod(iRound, 10) == 0)    
+    if (mod(iRound + 1, 10) == 0)    
         %recording state
+
         sonohilog('ABS state recording', 'NFO');
-        ABSMetrics = ABSMetrics.recordState(floor(iRound/10), Stations, Param, SimulationMetrics);
+        ABSMetrics = ABSMetrics.recordState(floor((iRound + 1)/10), Stations, Param, SimulationMetrics);
+
 
         %recording reward for the choosen action
-        if iRound ~= 0
-           ABSMetrics = ABSMetrics.recordReward(floor(iRound/10));
+        if iRound > 10
+           ABSMetrics = ABSMetrics.recordReward(floor((iRound + 1)/10));
         end
     end
     

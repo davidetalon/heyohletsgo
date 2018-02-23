@@ -32,7 +32,7 @@ Param.draw = 1;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 100;
+Param.schRounds = 50;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;

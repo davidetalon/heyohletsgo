@@ -5,7 +5,9 @@ classdef ABSState
     properties
         SMacro
         SMicro
+        SMicros
         nUEMacro
+        nUEMicros
         nUEMicro
         nABS
         choice
@@ -16,9 +18,13 @@ classdef ABSState
         
         function obj = ABSState(Param)
             obj.SMacro = zeros(floor(Param.schRounds/10), Param.numMacro);
-            obj.SMicro = zeros(floor(Param.schRounds/10), Param.numMicro);
+            obj.SMicros = zeros(floor(Param.schRounds/10), Param.numMicro + Param.numMacro);
+            obj.SMicro = zeros(floor(Param.schRounds/10), 1);
+            
             obj.nUEMacro = zeros(floor(Param.schRounds/10), Param.numMacro);
-            obj.nUEMicro = zeros(floor(Param.schRounds/10), Param.numMicro);
+            obj.nUEMicros = zeros(floor(Param.schRounds/10), Param.numMicro + Param.numMacro);
+            obj.nUEMicro = zeros(floor(Param.schRounds/10), 1);
+            
             obj.nABS = zeros(floor(Param.schRounds/10), 1);
             obj.choice = zeros(floor(Param.schRounds/10) - 1, 1);
             obj.Reward = zeros(floor(Param.schRounds/10) - 1, 1);
@@ -39,19 +45,26 @@ classdef ABSState
                 end 
             end
             %get throughput for macro cells
-            obj.SMacro(nFrame + 1, 1:length(macros)) = sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,macros), 1) / (10 * 10^-3);
+            obj.SMacro(nFrame, 1:length(macros)) = sum(SimulationMetrics.txBits((nFrame - 1)*10 + 1:nFrame*10,macros), 1) / (10 * 10^-3);
             %get the number of active users
-            [~, macroUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, macros, :));
-            obj.nUEMacro(nFrame + 1,1:length(macros)) = length(unique(macroUsers));
+            [~, macroUsers] = find(SimulationMetrics.activeUsers((nFrame - 1)*10 + 1:nFrame*10, macros, :));
+            obj.nUEMacro(nFrame,1:length(macros)) = length(unique(macroUsers));
             
             %compute the average number of active users and throughput per
             %micro cell
             micros = setdiff(1:length(Stations), macros);
+            sTotMicro = 0;
+            nTotUEMicro = 0;
             for iMicro = micros 
-                obj.SMicro(iMicro) = sum(SimulationMetrics.txBits((nFrame * 10) + 1:(nFrame+1)*10,iMicro), 1) / (10*10^-3);
-                [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame * 10) + 1:(nFrame+1)*10, iMicro, :));
-                obj.nUEMicro(iMicro) = length(unique(microUsers));
+                sTotMicro = sTotMicro + sum(SimulationMetrics.txBits(((nFrame - 1)*10 + 1):nFrame*10,iMicro), 1) ;
+                obj.SMicros(nFrame,iMicro) = sum(SimulationMetrics.txBits((nFrame - 1)*10 + 1:nFrame*10,iMicro), 1) / (10*10^-3);
+                [~, microUsers] = find(SimulationMetrics.activeUsers((nFrame - 1)*10 + 1:nFrame*10, iMicro, :));
+                obj.nUEMicros(nFrame, iMicro) = length(unique(microUsers));
+                nTotUEMicro = nTotUEMicro + length(unique(microUsers));
             end
+            thrMicro = sTotMicro / (10*10^-3);
+            obj.SMicro(nFrame)= thrMicro / Param.numMicro;
+            obj.nUEMicro(nFrame) = nTotUEMicro /Param.numMicro;
             
 %             sTotMicro = 0;
 %             nTotUEMicro = 0;
