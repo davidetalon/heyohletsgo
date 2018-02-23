@@ -21,7 +21,7 @@ end
 
 switch user_type
     case 1
-        user_speed = 4000;
+        user_speed = 1500;
         obj.Velocity = user_speed;
         x(1) = city.Vertical_sidewalks(randi(v_streets_number*2));
         y(1) = city.Horizontal_sidewalks(randi(h_streets_number*2));

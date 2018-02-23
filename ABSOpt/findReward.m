@@ -18,7 +18,7 @@ if(state.nUEMacro == 0 && state.nUEMicro > 0)
 elseif(state.nUEMacro >0 && state.nUEMicro == 0)
     reward = 10-state.nABS;
 else
-    ratio = (state.SMacro * state.nUEMicro / (state.SMicro * state.nUEMacro);
+    ratio = (state.SMacro * state.nUEMicro / (state.SMicro * state.nUEMacro));
 
     if ratio<=1
         reward = ratio*MAX_REWARD;
