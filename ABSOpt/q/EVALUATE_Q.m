@@ -35,8 +35,6 @@ for iFile = 1:NUMBER_OF_FILES
     end
 end
 
-%Initialize sequences and normalize states
- 
 for index = 1:NUMBER_OF_FILES
     
      states{index} = normalize_states(states{index},S_ratio_values,N_ratio_values,S_ratio_max,N_ratio_max);

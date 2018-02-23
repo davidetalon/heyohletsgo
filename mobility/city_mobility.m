@@ -43,7 +43,7 @@ switch user_type
                         if (y(j-1)<city.Horizontal_sidewalks(i) && y(j)>city.Horizontal_sidewalks(i))||...
                                 (y(j-1)>city.Horizontal_sidewalks(i) && y(j)<city.Horizontal_sidewalks(i))
                         
-                            choice = randi(10);
+                            choice = randi(13);
                             difference = abs(y(j)-city.Horizontal_sidewalks(i));
                             if(choice<=3)
                                 user_direction = 2;
@@ -74,7 +74,7 @@ switch user_type
                         if (x(j-1)<city.Vertical_sidewalks(i) && x(j)>city.Vertical_sidewalks(i))||...
                                 (x(j-1)>city.Vertical_sidewalks(i) && x(j)<city.Vertical_sidewalks(i))
                         
-                            choice = randi(10);
+                            choice = randi(13);
                             difference = abs(x(j)-city.Vertical_sidewalks(i));
                             if(choice<=3)
                                 user_direction = 1;
