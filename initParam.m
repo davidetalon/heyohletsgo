@@ -32,7 +32,7 @@ Param.draw = 1;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 2100;
+Param.schRounds = 1250;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -47,9 +47,9 @@ Param.numSubFramesMacro = 50;% Integer used to set the number of RBs for a macro
 Param.numSubFramesMicro = 25;% Integer used to set the number of RBs for a micro eNodeB
 Param.numSubFramesUE = 25;% Integer used to set the number of RBs for the uplink
 Param.numMacro = 1;% Integer used to specify the number of macro eNodeBs in the scenario (currently only 1)
-Param.numMicro = 3;% Integer used to specify the number of micro eNodeBs in the scenario
+Param.numMicro = 4;% Integer used to specify the number of micro eNodeBs in the scenario
 Param.microPos = 'uniform'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
-Param.microUniformRadius = 120;% Double radius of distance from centre for microBS in metres
+Param.microUniformRadius = 80;% Double radius of distance from centre for microBS in metres
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
