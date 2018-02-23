@@ -51,8 +51,9 @@ end
 % end
 
 % Rounds are 0-based for the subframe indexing, so add 1 when needed
-tic
+
 for iRound = 0:(Param.schRounds-1)
+    tic
 	% In each scheduling round, check UEs associated with each station and
 	% allocate PRBs through the scheduling function per each station
 	sonohilog(sprintf('Round %i/%i',iRound+1,Param.schRounds),'NFO');
@@ -94,8 +95,8 @@ for iRound = 0:(Param.schRounds-1)
                 change = 0;
         end
         
-        fprintf('\n\nABS = %5.0f\n\n', nABS);
-        fprintf('\n\nRound = %5.0f\n\n', iRound);
+%         fprintf('\n\nABS = %5.0f\n\n', nABS);
+%         fprintf('\n\nRound = %5.0f\n\n', iRound);
         
         ABSMask = generateABSMask(10, nABS);
 
@@ -268,9 +269,9 @@ for iRound = 0:(Param.schRounds-1)
 		Stations(iStation) = Stations(iStation).reset(iRound + 1);
 	end
 	Channel = Channel.resetChannelModels();
-	
+toc	
 end % end round
-toc
+
 
 
  

@@ -1,9 +1,9 @@
-h_size = 500;
-v_size = 500;
-h_streets_number =  10;
-v_streets_number = 8;
-min_interstreet_space = 5;
-city = City(h_size, v_size, h_streets_number, v_streets_number,min_interstreet_space, 178);
+h_size = 300;
+v_size = 300;
+h_streets_number =  7;
+v_streets_number = 6;
+min_interstreet_space = 10;
+city = City(h_size, v_size, h_streets_number, v_streets_number,min_interstreet_space, 23);
     
 file = fopen('mobility/myCity.txt','w');
     
@@ -32,7 +32,7 @@ Param.draw = 1;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 50;
+Param.schRounds = 2100;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -53,7 +53,7 @@ Param.microUniformRadius = 120;% Double radius of distance from centre for micro
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 5;% Integer used for the number of UEs
+Param.numUsers = 23;% Integer used for the number of UEs
 Param.mobilityScenario = 'city';% Integer to choose the mobility scenario (city,pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/myCity.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model
