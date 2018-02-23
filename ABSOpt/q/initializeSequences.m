@@ -12,8 +12,12 @@ for j = 1:number_of_states
     states_sequence(j,3) = raw_data.nABS(j);
     
     if j ~= 1
-        rewards_sequence(j-1) = raw_data.Reward(j-1);
-        actions_sequence(j-1) = (raw_data.nABS(j)-raw_data.nABS(j-1) + 2)/2;
+        actions_sequence(j-1) = ((raw_data.nABS(j)-raw_data.nABS(j-1) + 2)/2)+1;
     end
+    
+    if j < number_of_states
+        rewards_sequence(j) = raw_data.Reward(j+1);
+    end
+        
 end
 
