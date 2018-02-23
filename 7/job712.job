@@ -1,6 +1,0 @@
-#!/bin/bash
-#$ -P 40_Studenti
-#$ -cwd
-##$ -m ea
-cd ~/devel/jobs
-matlab -r "main(712)"
