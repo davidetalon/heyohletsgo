@@ -17,8 +17,8 @@ function [Stations, Users] = enbTxBulk(Stations, Users, Param, timeNow)
 		iServingStation = find([Stations.NCellID] == Users(iUser).ENodeBID);
 		
 		% Check if this UE is scheduled otherwise skip
-		%if checkUserSchedule(Users(iUser), Stations(iServingStation))
-		if Users(iUser).Scheduled && Users(iUser).ENodeBID == iServingStation
+		if checkUserSchedule(Users(iUser), Stations(iServingStation))
+		%if Users(iUser).Scheduled && Users(iUser).ENodeBID == iServingStation
             % generate transport block for the user
 			[Stations(iServingStation), Users(iUser)] = ... 
 				createTransportBlock(Stations(iServingStation), Users(iUser), Param, timeNow);

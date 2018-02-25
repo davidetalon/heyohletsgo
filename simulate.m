@@ -1,4 +1,4 @@
-function simulate(Param, DataIn, utilLo, utilHi, subfolderName)
+function simulate(Param, DataIn, utilLo, utilHi, seed)
 
 %   SIMULATE is used to run a single simulation
 %
@@ -16,6 +16,12 @@ ChannelEstimator = DataIn.ChannelEstimator;
 SimulationMetrics = MetricRecorder(Param, utilLo, utilHi);
 ABSMetrics = ABSState(Param);
 nABS = Param.nABS;
+ABSMask = generateABSMask(10, nABS);
+for iStation = 1:length(Stations)
+    Stations(iStation)= Stations(iStation).setNABS(nABS);
+    Stations(iStation) = Stations(iStation).setABSMask(ABSMask);
+end
+
 
 %%Change randomly ABS
 number_of_frames = ceil(Param.schRounds/10);
@@ -74,12 +80,12 @@ for iRound = 0:(Param.schRounds-1)
     % ---------------------
 	% ABS CHOICE
 	% ---------------------
-    if (mod(iRound + 1, 10)==0)
+    if (mod(iRound, 10)==0) && iRound ~=0
         %generating Station's masks with dynamic ABS rate
         %choose the ABS optimization policy
         switch Param.ABSOptimization
             case 'random'
-                change = ABS_change((iRound + 1)/10 );
+                change = ABS_change((iRound)/10 );
                 
                 if nABS == 10 && change == 2
                     change = -2;
@@ -90,7 +96,12 @@ for iRound = 0:(Param.schRounds-1)
                 nABS = nABS + change;
              
             case 'QLearning'
-                [nABS, change] = qLearningABS(nABS);
+                
+                state.Srate = ABSMetrics.SMacro(floor(iRound/10))/ABSMetrics.SMicro(floor(iRound/10));
+                state.nUeRate = ABSMetrics.nUEMacro(floor(iRound/10))/ABSMetrics.nUEMicro(floor(iRound/10));
+                state.NABS = nABS;
+                %[nABS, change] = qLearningABS(nABS, state);
+                change = 0;
             case 'static'
                 change = 0;
         end
@@ -107,11 +118,11 @@ for iRound = 0:(Param.schRounds-1)
 
         %Record current nABS
 
-        ABSMetrics = ABSMetrics.recordNABS((iRound + 1)/10, nABS);
+        ABSMetrics = ABSMetrics.recordNABS(iRound/10, nABS);
 
         
         if iRound > 10
-            ABSMetrics = ABSMetrics.recordChoice((iRound + 1)/10, change);
+            ABSMetrics = ABSMetrics.recordChoice(iRound/10, change);
         end
         
     end
@@ -277,6 +288,6 @@ end % end round
  
 
 % Once this simulation set is done, save the output
-save(strcat('results/',subfolderName,'/', outPrexif, '.mat'), 'SimulationMetrics');
-save(strcat("results/",subfolderName,"/ABSState.mat"),"ABSMetrics");
+save(strcat('results/', outPrexif, num2str(seed),'.mat'), 'SimulationMetrics');
+save(strcat("results/ABSState",num2str(seed),".mat"),"ABSMetrics");
 end

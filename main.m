@@ -40,8 +40,8 @@ function main(seed)
     w = warning('off', 'all');
 
     Param.seed = seed;
-    subfolderName = strcat('seed',num2str(seed));
-    mkdir('results', subfolderName);
+%     subfolderName = strcat('seed',num2str(seed));
+%     mkdir('results', subfolderName);
     
     % Create Stations and Users
     [Stations, ~, Param] = createBaseStations(Param);
@@ -78,7 +78,7 @@ function main(seed)
     % Main loop
     for iUtilLo = 1: length(utilLo)
         for iUtilHi = 1:length(utilHi)
-            simulate(Param, simData, utilLo(iUtilLo), utilHi(iUtilHi), subfolderName);
+            simulate(Param, simData, utilLo(iUtilLo), utilHi(iUtilHi), seed);
         end
     end
 end

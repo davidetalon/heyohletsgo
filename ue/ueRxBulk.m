@@ -15,9 +15,9 @@ function Users = ueRxBulk(Stations, Users, cec)
 
     % Get serving station
     station = Stations([Stations.NCellID] == user.ENodeBID);
-    %scheduled = checkUserSchedule(user,station);
-    %scheduled = (Users(iUser).Scheduled) && (Users(iUser).ENodeBID == station);
-    if ~((Users(iUser).Scheduled) && Users(iUser).ENodeBID == station.NCellID)
+    scheduled = checkUserSchedule(user,station);
+%     scheduled = (Users(iUser).Scheduled) && (user.ENodeBID == station);
+    if ~scheduled
       % Pass user iteration the user is not scheduled.
       continue
     end
