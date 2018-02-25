@@ -1,7 +1,7 @@
-h_size = 300;
-v_size = 300;
-h_streets_number =  7;
-v_streets_number = 6;
+h_size = 200;
+v_size = 200;
+h_streets_number =  4;
+v_streets_number = 3;
 min_interstreet_space = 10;
 city = City(h_size, v_size, h_streets_number, v_streets_number,min_interstreet_space, 23);
     
@@ -26,13 +26,13 @@ Param.reset = 1;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 0;
+Param.draw = 1;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 30;
+Param.schRounds = 1000;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -56,7 +56,7 @@ Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
 Param.numUsers = 15;% Integer used for the number of UEs
 Param.mobilityScenario = 'city';% Integer to choose the mobility scenario (city,pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/myCity.txt';% Path for loading the file with the buildings
-Param.trafficModel = 'fullBuffer';% Traffic model
+Param.trafficModel = 'webBrowsing';% Traffic model
 Param.mobilityStep = 0.01;
 Param.pucchFormat = 2;% PUCCH format (only 2 and 3 work)
 Param.handoverTimer = 0.01;% X2 Handover timer in s (time needed from starting and handover to its completion)
@@ -95,7 +95,7 @@ Param.scheduling = 'roundRobin';% String for the scheduling policy to use (curre
 Param.refreshAssociationTimer = 0.001;% Double to choose the interval in s to run refreshUsersAssociation
 Param.icScheme = 'fullReuseABS';
 Param.nABS = 4;
-Param.ABSOptimization = 'QLearning';
+Param.ABSOptimization = 'random';
 
 %%%%% SETUP STUFF - DON'T TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING
 %% HARQ & ARQ
