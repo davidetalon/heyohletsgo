@@ -26,7 +26,7 @@ Param.reset = 1;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 1;
+Param.draw = 0;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
@@ -47,13 +47,13 @@ Param.numSubFramesMacro = 50;% Integer used to set the number of RBs for a macro
 Param.numSubFramesMicro = 25;% Integer used to set the number of RBs for a micro eNodeB
 Param.numSubFramesUE = 25;% Integer used to set the number of RBs for the uplink
 Param.numMacro = 1;% Integer used to specify the number of macro eNodeBs in the scenario (currently only 1)
-Param.numMicro = 3;% Integer used to specify the number of micro eNodeBs in the scenario
+Param.numMicro = 4;% Integer used to specify the number of micro eNodeBs in the scenario
 Param.microPos = 'uniform'; % Array of char to deicde the positioning of the micro BS (uniform, random, clusterized)
-Param.microUniformRadius = 120;% Double radius of distance from centre for microBS in metres
+Param.microUniformRadius = 80;% Double radius of distance from centre for microBS in metres
 Param.macroHeight = 35;% Double used to specify the height in metres of the macro eNodeBs
 Param.microHeight = 25;% Double used to specify the height in metres of the micro eNodeBs
 Param.ueHeight = 1.5;% Double used to specify the height in metres of the UEs
-Param.numUsers = 23;% Integer used for the number of UEs
+Param.numUsers = 15;% Integer used for the number of UEs
 Param.mobilityScenario = 'city';% Integer to choose the mobility scenario (city,pedestrian, vehicular, static, superman, straight)
 Param.buildings = 'mobility/myCity.txt';% Path for loading the file with the buildings
 Param.trafficModel = 'webBrowsing';% Traffic model
