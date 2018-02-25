@@ -1,11 +1,11 @@
 %Parameters
-NUMBER_OF_FILES = 1;
+NUMBER_OF_FILES = 74;
 S_ratio_values = 5;
 N_ratio_values = 4;
 alpha = 0.4;
-discount_factor = 0.4;
-
-%initialize q matrices
+discount_factor = 0.6;
+T = 0.95;
+%initialize q matrices 
 q=initialize(S_ratio_values,N_ratio_values);
 
 states={};
@@ -35,6 +35,9 @@ for iFile = 1:NUMBER_OF_FILES
     end
 end
 
+S_ratio_max = T*S_ratio_max;
+N_ratio_max = T*N_ratio_max;
+
 for index = 1:NUMBER_OF_FILES
     
      states{index} = normalize_states(states{index},S_ratio_values,N_ratio_values,S_ratio_max,N_ratio_max);
@@ -42,3 +45,6 @@ for index = 1:NUMBER_OF_FILES
      %Update q values 
      q = updateQ(q, alpha, discount_factor, states{index}, actions{index}, rewards{index});
 end
+
+
+policy = computePolicy(q);
