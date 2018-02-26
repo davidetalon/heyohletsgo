@@ -22,6 +22,9 @@ for iStation = 1:length(Stations)
     Stations(iStation) = Stations(iStation).setABSMask(ABSMask);
 end
 
+%Record current nABS
+ABSMetrics = ABSMetrics.recordNABS(0, nABS);
+
 
 %loading policy or random choices
 switch Param.ABSOptimization
@@ -120,8 +123,8 @@ for iRound = 0:(Param.schRounds-1)
                 change = 0;
         end
         
-%         fprintf('\n\nABS = %5.0f\n\n', nABS);
-%         fprintf('\n\nRound = %5.0f\n\n', iRound);
+        fprintf('\n\nABS = %5.0f\n\n', nABS);
+        fprintf('\n\nRound = %5.0f\n\n', iRound);
         
         ABSMask = generateABSMask(10, nABS);
 
@@ -135,7 +138,7 @@ for iRound = 0:(Param.schRounds-1)
         ABSMetrics = ABSMetrics.recordNABS(iRound/10, nABS);
 
         
-        if iRound > 10
+        if iRound >= 10
             ABSMetrics = ABSMetrics.recordChoice(iRound/10, change);
         end
         

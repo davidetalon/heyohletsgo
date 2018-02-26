@@ -100,7 +100,7 @@ classdef ABSState
             state.nABS = obj.nABS(nFrame);
             
             %reward refers to previous state
-            obj.Reward(nFrame) = findReward(state);
+            obj.Reward(nFrame - 1) = findReward(state);
         end
     end
     

@@ -1,4 +1,4 @@
-function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
+function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers, seed)
 
 %   LOAD WEB BROWSING TRAFFIC is used to get data in terms of 
 %   packet size and request time.
@@ -12,6 +12,8 @@ function [trSource] = loadWebBrowsingTraffic (totSimTime, numUsers)
 %   nPackets  -> number of packets generated
 %
 %   trSource   ->  matrix with frameSizes
+
+  rng(seed);
 
   %packet sizes [Kb]
   pckSizes = [10 25 50 75 100 250 500 750 1000 2500 5000 7500 10000];
