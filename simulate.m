@@ -23,10 +23,24 @@ for iStation = 1:length(Stations)
 end
 
 
-%%Change randomly ABS
-number_of_frames = ceil(Param.schRounds/10);
-ABS_change = (((randi(3,number_of_frames,1))-1).*2)-2
-%
+%loading policy or random choices
+switch Param.ABSOptimization
+    case 'random'
+    
+        %%Change randomly ABS
+        number_of_frames = ceil(Param.schRounds/10);
+        ABS_change = (((randi(3,number_of_frames,1))-1).*2)-2
+        
+    case 'QLearning'
+        policy = load("ABSOpt/q/qPolicy.mat", "");
+        policy = policy.policy;
+        S_ratio_max = load("ABSOpt/q/qPolicy.mat", "S_ratio_max");
+        MaxSRatio = S_ratio_max.S_ratio_max;
+        N_ratio_max = load("ABSOpt/q/qPolicy.mat", "N_ratio_max");
+        MaxNRatio = N_ratio_max.N_ratio_max;
+        truncate = load("ABSOpt/q/qPolicy.mat", "T");
+        trunc = truncate.T;
+end
 
 % Create structures to hold transmission data
 if (Param.storeTxData)
@@ -97,11 +111,11 @@ for iRound = 0:(Param.schRounds-1)
              
             case 'QLearning'
                 
-                state.Srate = ABSMetrics.SMacro(floor(iRound/10))/ABSMetrics.SMicro(floor(iRound/10));
-                state.nUeRate = ABSMetrics.nUEMacro(floor(iRound/10))/ABSMetrics.nUEMicro(floor(iRound/10));
-                state.NABS = nABS;
-                %[nABS, change] = qLearningABS(nABS, state);
-                change = 0;
+                state(1) = ABSMetrics.SMacro(floor(iRound/10))/ABSMetrics.SMicro(floor(iRound/10));
+                state(2) = ABSMetrics.nUEMacro(floor(iRound/10))/ABSMetrics.nUEMicro(floor(iRound/10));
+                state(3) = nABS;
+                [nABS, change] = qLearningABS(nABS, state, policy, MaxSRatio, MaxNRatio, trunc);
+     
             case 'static'
                 change = 0;
         end

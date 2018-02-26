@@ -26,7 +26,7 @@ Param.reset = 1;% Boolean used to reset the folder structure and reload everythi
 Param.rmResults = 1;% Boolean to clean the results folder
 
 % Boolean used to enable the drawing of plots and other cool stuff
-Param.draw = 1;
+Param.draw = 0;
 
 % Booelan used to store the transmission data, that is each TB, codeword, waveform
 Param.storeTxData = 0;
@@ -95,7 +95,7 @@ Param.scheduling = 'roundRobin';% String for the scheduling policy to use (curre
 Param.refreshAssociationTimer = 0.001;% Double to choose the interval in s to run refreshUsersAssociation
 Param.icScheme = 'fullReuseABS';
 Param.nABS = 4;
-Param.ABSOptimization = 'random';
+Param.ABSOptimization = 'static';
 
 %%%%% SETUP STUFF - DON'T TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING
 %% HARQ & ARQ
