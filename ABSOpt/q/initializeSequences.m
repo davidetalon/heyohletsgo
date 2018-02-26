@@ -9,10 +9,18 @@ for j = 1:number_of_states
     
     states_sequence(j,1) = raw_data.SMacro(j)/raw_data.SMicro(j);
     states_sequence(j,2) = raw_data.nUEMacro(j)/raw_data.nUEMicro(j);
-    states_sequence(j,3) = raw_data.nABS(j+1);
+    states_sequence(j,3) = raw_data.nABS(j);
     
-    if j > 2
-        actions_sequence(j-2) = ((raw_data.nABS(j)-raw_data.nABS(j-1) + 2)/2)+1;
+    if j == 1
+        states_sequence(j,3) = 4;
+    end
+    
+    if j > 1
+        actions_sequence(j-1) = ((raw_data.nABS(j)-raw_data.nABS(j-1) + 2)/2)+1;
+        
+        if j == 2
+           actions_sequence(j-1) = ((raw_data.nABS(j)-4 + 2)/2)+1; 
+        end
     end
     
     if j < number_of_states
@@ -21,5 +29,4 @@ for j = 1:number_of_states
         
 end
 
-    actions_sequence(number_of_states-1) = ((raw_data.nABS(number_of_states+1)-raw_data.nABS(number_of_states) + 2)/2)+1;
 
