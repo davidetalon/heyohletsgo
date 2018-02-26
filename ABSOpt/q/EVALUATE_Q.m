@@ -1,9 +1,9 @@
 %Parameters
-NUMBER_OF_FILES = 39;
+NUMBER_OF_FILES = 40;
 S_ratio_values = 5;
 N_ratio_values = 4;
 alpha = 0.4;
-discount_factor = 0.6;
+discount_factor = 0.9;
 T = 0.8;
 %initialize q matrices 
 q=initialize(S_ratio_values,N_ratio_values);

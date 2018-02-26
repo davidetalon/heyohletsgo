@@ -32,7 +32,7 @@ Param.draw = 0;
 Param.storeTxData = 0;
 
 % Integer used to control the number of scheduling rounds (subframes) to simulate
-Param.schRounds = 50;
+Param.schRounds = 1000;
 Param.seed = 49;% Integer used for the simulation seed
 % Boolean to save a whole LTE frame for the macro eNodeB for testing
 Param.saveFrame = 1;
@@ -95,7 +95,7 @@ Param.scheduling = 'roundRobin';% String for the scheduling policy to use (curre
 Param.refreshAssociationTimer = 0.001;% Double to choose the interval in s to run refreshUsersAssociation
 Param.icScheme = 'fullReuseABS';
 Param.nABS = 4;
-Param.ABSOptimization = 'random';
+Param.ABSOptimization = 'QLearning';
 
 %%%%% SETUP STUFF - DON'T TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING
 %% HARQ & ARQ
